@@ -1,0 +1,89 @@
+#!/bin/sh
+# Sunrun Server Load Balancer
+#
+# chkconfig: 235 84 16
+# description: Sunrun Server Load Balancer
+
+. /etc/rc.d/init.d/functions
+
+exec=/usr/local/bin/sunruncel-demo
+prog=$(basename $exec)
+lockfile=/var/lock/subsys/$prog
+pidfile=/var/run/${prog}.pid
+
+start() {
+	echo -n $"Starting $prog: "
+	pid=`pidofproc $prog`
+	if [ -n "$pid" ]; then
+		echo -n $"$prog(pid $pid) is running..."
+		retval=1
+	else
+		$exec
+		retval=$?
+		[ $retval -eq 0 ] && success $"$prog startup" || failure $"$prog startup"
+	fi
+	echo
+	[ $retval -eq 0 ] && touch $lockfile
+	return $retval
+}
+
+stop() {
+	echo -n $"Stoping $prog: "
+	pid=`pidofproc $prog`
+	if [ -n "$pid" ]; then
+		kill -9 $pid
+		usleep 100000
+		checkpid $pid
+		retval=$?
+		[ $retval -eq 1 ] && success $"$prog shutdown" || failure $"$prog shutdown"
+	else
+		echo -n $"$prog is stopped"
+		failure $"$prog shutdown"
+		retval=1
+	fi
+	echo
+	[ $retval -eq 1 ] && rm -f $lockfile $pidfile
+	return $retval
+}
+
+reload() {
+	echo -n $"Reloading $prog: "
+	pid=`pidofproc $prog`
+#	pid=`pidof -o $$ -o $PPID -o %PPID -x $prog`
+	if [ -n "$pid" ]; then
+		$exec -r
+		retval=$?
+		[ $retval -eq 0 ] && success $"$prog startup" || failure $"$prog startup"
+	else
+		$exec
+		retval=$?
+		[ $retval -eq 0 ] && success $"$prog reload" || failure $"$prog reload"
+	fi
+	echo
+	[ $retval -eq 0 ] && touch $lockfile
+	return $retval
+}
+
+case "$1" in
+	start)
+        start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	reload)
+		reload
+		;;
+	status)
+		status $prog
+		;;
+	*)
+		echo "Usage: `basename $0` {start|stop|restart|reload|status}"
+		exit 1
+esac
+
+exit 0
