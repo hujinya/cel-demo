@@ -1,0 +1,213 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- <link rel="icon" href="" type="image/x-icon"/> -->
+<style>
+body {
+	width: 100%;
+	height:100%;
+	font-family: 'Open Sans', sans-serif;
+	background: #092756;
+	background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+}
+
+a, body, button, dd, div, dl, dt, h1, h2, h3, h4, h5, h6, input, li, ol, p, td, textarea, ul { margin: 0; padding: 0; }
+body, button, input, select, textarea { font: 9pt/1.5 tahoma,arial,Hiragino Sans GB,\5b8b\4f53,sans-serif; }
+button, h1, h2, h3, h4, h5, h6, input, select, textarea { font-size: 100%; }
+ol, ul { list-style: none; }
+a { color: #666; text-decoration: none; }
+a:hover { color: #043559; text-decoration: underline; }
+img { border: 0; vertical-align: top; }
+textarea { resize: none; }
+a, button, input, select, textarea { outline: 0; }
+a, button { cursor: pointer; }
+button { border: none; }
+.main { position: relative; margin: 0 auto; width: 990px; height: 900px;}
+.header { padding: 13px 0 0; height: 67px; }
+.header h1 a { display: block; }
+.content { overflow: hidden; }
+.content .con_left { float: left; padding: 75pt 0 0 230px; width: 181px; }
+.content .con_left p { padding: 0 0 3px; width: 10pc; color: #040000; font-size: 1pc; font-family: "微软雅黑"; }
+.content .con_left a { padding: 0 0 0 2pc; color: #2f548e; text-decoration: underline; font-size: 1pc; font-family: "微软雅黑"; }
+.content .con_right { float: left; margin: 65px 0 0; width: 28pc; height: 398px; border: 1px solid #dedede; background: #fff; }
+.content .con_right .con_r_top { padding: 0 0 0 50px; width: 409px; height: 110px; }
+.content .con_right .con_r_top .left, .content .con_right .con_r_top .right { float: left; padding: 35px 0 0; width: 186px; height: 35px; text-align: center; text-decoration: none; font-size: 18px; font-family: "微软雅黑"; }
+.content .con_right .con_r_top .left { border-bottom: 2px solid #dedede; color: #999; }
+.content .con_right .con_r_top .right { border-bottom: 2px solid #00C9D4; color: #333; }
+.content .con_right ul .con_r_left .erweima { text-align: center; }
+.content .con_right ul .con_r_right .user input { margin: 0 0 21px -1px; padding-left: 7px; width: 324px; height: 33px; border: 1px solid #dedede; color: #999; font-size: 14px; font-family: "微软雅黑"; line-height: 2pc; }
+.content .con_right ul .con_r_right .user { padding: 0 0 0 50px; }
+.content .con_right ul .con_r_right p { overflow: hidden; padding: 0 50px 37px; color: #666; font-size: 13px; font-family: "微软雅黑"; }
+.content .con_right ul .con_r_right p .mima { float: left; padding-left: 5px; text-decoration: none; }
+.content .con_right ul .con_r_right p .zhuce { float: right; text-decoration: none; }
+.content .con_right ul .con_r_right button { margin: 0 0 0 30pt; width: 324px; height: 42px; background: #00C9D4; color: #fff; font-size: 1pc; font-family: "微软雅黑"; }
+.content .con_right ul .con_r_left { display: none; }
+.con_right ul .con_r_left .erweima { position: relative; margin: 0 auto; width: 174px; height: 11pc; }
+.qrcode { position: absolute; top: 0; left: 0; width: 174px; height: 11pc; }
+.divimg { position: absolute; top: 50%; left: 50%; z-index: 100; overflow: hidden; margin-top: -15px; margin-left: -30px; padding: 1px; width: 60px; height: 30px; border: 1px solid #eee; border-radius: .5rem; background: #fff; opacity: .9; filter: alpha(opacity=90); -moz-opacity: .9; }
+.content .con_right ul .con_r_right .user .yanzheng { width: 150px; margin: 0 5px 10px 1px; padding-left: 5px; }
+.content .con_right ul .con_r_right .user .next { font-size: 12px; width: 40px; height: 33px; float: right; margin-right: 40px; }
+.content .con_right .con_r_top { *height: 90px; }
+#round { -moz-border-radius: 8px; -webkit-border-radius: 8px; }
+</style>
+<body style="overflow:hidden">
+<!-- <div class="pagewrap"> -->
+	<div class="main">
+		<div class="header"></div>
+		<div class="content">
+		<div class="con_left"></div>
+			<div class="con_right" style="width: 420px;height: 430px;">
+				<div class="con_r_top">
+					<a href="javascript:;" class="right" style="color: rgb(51, 51, 51); border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color:#00C9D4;width: 160px;">账户登录</a>
+					<a href="javascript:;" class="left" style="color: rgb(153, 153, 153); border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgb(222, 222, 222);width: 160px;">扫码登录</a>
+				</div>
+				<ul>
+					<li class="con_r_left" style="display: none;">
+						<div class="erweima">
+							<div class="qrcode">
+								<div id="output" style="width: 100%; position: relative">
+									<!-- 扫码登录图片 -->
+									<img src="./img/2weima.jpg" style="width: 190px; height: 190px"></div>
+							</div>
+						 </div>
+						<div style="height: 80px">
+						</div>
+					</li>
+					<div style="margin-top:-25px;margin-bottom:10px;visibility:visible">
+						<span style="color:#F52129;margin-left:50px" id="errtis">&nbsp;</span>
+					</div>
+					<li class="con_r_right" style="display: block;">
+					   <form name="form1" method="post" action="#" autocomplete="off">
+						<div class="user">
+								<div>
+									<input type="text" id="username" name="username" placeholder=" User Name " style="height: 42px;">
+								</div>
+								<div>
+									<input type="password" id="pass" name="password" placeholder=" Password " style="margin-bottom: 5px;height: 42px;">
+								</div><br  >
+						</div>
+						<div style="margin-left: 50px;">
+							<input type="checkbox" id="checkbos" style="vertical-align:middle;zoom:115%;" />
+							<label for="checkbos" style="margin-top:-2px;color:#B1B3B9">记住密码</label>
+						</div>
+						<br />
+						<button id="round" style="margin-left: 48px;" onclick="butt()" type="button">登 录</button>
+					</form><br />
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<!-- </div> -->
+<input type="hidden" id="testbutt">
+<script src="./js/jquery.min.js" type="text/javascript"></script>
+<script>
+function getQueryString(name){
+	var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r!=null)return  unescape(r[2]); return null;
+}
+function butt(){
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("pass").value;
+	var service= getQueryString("service");
+	var sdate={};
+
+	//判断用户是否加域信息
+	if(username.indexOf("@") >= 0 )
+	{
+		//@前面用户名
+		var usernames = username.split('@')[0];
+		//@后面内容
+		var resultf = username.split('@')[1];
+	}else{
+		//不包括@符 直接取用户输入的username
+		var usernames = document.getElementById("username").value;
+	}
+	
+	var link2="/sunruniam/sso/login?service="+service;
+
+	$.get(link2,sdate,function(data){
+			var obj=eval("("+data+")");
+			//判断是否存在域名值
+			if(resultf == undefined || resultf == ''){
+				var link = "/sunruniam/sso/login?service="+service+"&lt="+obj.lt+"&login_type="+obj.login_type+"&username="+usernames+"&password="+password;
+			}else{
+				var link = "/sunruniam/sso/login?service="+service+"&lt="+obj.lt+"&login_type="+obj.login_type+"&username="+usernames+"&domain="+resultf+"&password="+password;
+			}
+			$.ajax({url:link,dataType:"text",success:function(results){
+				//账户密码正确跳转
+				var succe = eval("("+results+")");
+				$('#testbutt').val('&nbsp;');
+				top.location = service+"?st="+succe.st;
+				return false;
+			},error:function(results){
+				//账户或密码错误提示到页面
+				var json = eval("("+results.responseText+")");
+				$('#errtis').html("Error: "+json.error+" Message: "+json.message);
+				if(json.error == '0'){
+					$("<br /><span style='margin-left:50px'> 您已有账号尚未注销，<a href="+ service +" style='text-decoration:none;cursor:pointer;'>点击链接进入... </a></span>").appendTo('#errtis');
+				}
+			}
+		});
+		},"html");
+	}
+	//点击时隐藏提示
+	$('#username').click(function(){ $('#errtis').html('&nbsp;'); });
+	$('#pass').click(function(){ $('#errtis').html('&nbsp;'); });
+
+	document.onkeydown = function(e){
+		if(!e){
+			e = window.event;
+		}
+		if((e.keyCode || e.which) == 13){
+			butt();
+		}
+	}
+
+	$(function () {
+    $(".content .con_right .left").click(function (e) {
+        $(this).css({ "color": "#333333", "border-bottom": "2px solid #00C9D4" });
+        $(".content .con_right .right").css({ "color": "#999999", "border-bottom": "2px solid #dedede" });
+        $(".content .con_right ul .con_r_left").css("display", "block");
+        $(".content .con_right ul .con_r_right").css("display", "none");
+    });
+    $(".content .con_right .right").click(function (e) {
+        $(this).css({ "color": "#333333", "border-bottom": "2px solid #00C9D4" });
+        $(".content .con_right .left").css({ "color": "#999999", "border-bottom": "2px solid #dedede" });
+        $(".content .con_right ul .con_r_right").css("display", "block");
+        $(".content .con_right ul .con_r_left").css("display", "none");
+		});
+})
+function ShowMessage() 
+{
+	// alert($('#testbutt').val());
+		console.log($('#testbutt').val());
+	var service = getQueryString("service");
+	var link3="/sunruniam/sso/login?service="+service;
+	var hiddenbutt = $('#testbutt').val();
+	if(hiddenbutt !== ''){
+		$('#testbutt').val('&nbsp;');
+		top.location = service;
+		return false;
+	}
+
+	$.ajax({url:link3,dataType:"text",success:function(resultss){
+		var objstr = eval("("+resultss+")");
+		if(objstr.st){
+			// $("<span> 您已有账号尚未注销，<a href="+ service +" style='text-decoration:none;cursor:pointer;'>点击链接进入... </a></span>").appendTo('#errtis');
+			top.location = service;
+		}
+			},error:function(result){
+				$('#errtis').html("服务器异常...");
+			}
+		});return false;
+} 
+// window.load=function(){ShowMessage();}
+$(document).ready(function(){
+	ShowMessage();
+})
+</script>

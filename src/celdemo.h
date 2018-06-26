@@ -7,8 +7,6 @@
 #include "cel/error.h"
 #include "cel/version.h"
 #include "cel/eventloopgroup.h"
-#include "cel/hashtable.h"
-#include "cel/arraylist.h"
 #include "cel/net/socket.h"
 
 #define Debug(args) CEL_LOG_DEBUG(args)

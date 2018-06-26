@@ -17,11 +17,6 @@ CelEventLoopGroup evt_loop_grp;
 static BOOL is_debug = FALSE;
 static BOOL is_exit = FALSE;
 #ifdef _CEL_UNIX
-static CelSignals s_signals[] = 
-{
-    { SIGPIPE, "sigpipe", SIG_IGN }, 
-    { 0, NULL, NULL }
-};
 static CelResourceLimits s_rlimits = { 0, MAX_FD, MAX_FD };
 #endif
 TCHAR log_path[CEL_PATHLEN];
@@ -39,7 +34,6 @@ int celdemo_main(int argc, TCHAR *argv[])
     cel_cryptomutex_register(NULL, NULL);
     
 #ifdef _CEL_UNIX
-    cel_signals_init(s_signals);
     cel_resourcelimits_set(&s_rlimits);
 #endif
 #ifdef _CEL_WIN
@@ -61,7 +55,7 @@ int celdemo_main(int argc, TCHAR *argv[])
         Info((CELDEMO_SERVICE _T(" version %s"), 
             cel_version_release(&celdemo_ver)));
     }
-    if (cel_eventloopgroup_init(&evt_loop_grp, -1, TRUE) == -1)
+    if (cel_eventloopgroup_init(&evt_loop_grp, MAX_FD, -1, TRUE) == -1)
         return 1;
     Info((_T("Event loop init success, threads:%d"), 
         cel_eventloopgroup_get_threads_num(&evt_loop_grp)));
@@ -88,7 +82,7 @@ int celdemo_main(int argc, TCHAR *argv[])
         exit(1);
     cel_eventloopgroup_schedule_timer(
         &evt_loop_grp, 1000, 1, (CelTimerCallbackFunc)cel_log_flush, NULL);
-    cel_eventloopgroup_exit(&evt_loop_grp);
+    cel_eventloopgroup_destroy(&evt_loop_grp);
 #ifdef _CEL_WIN
     cel_wsacleanup();
 #endif
