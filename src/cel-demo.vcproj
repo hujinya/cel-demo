@@ -184,6 +184,10 @@
 				RelativePath=".\error.c"
 				>
 			</File>
+			<File
+				RelativePath=".\log.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -208,6 +212,10 @@
 			</File>
 			<File
 				RelativePath=".\error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\log.h"
 				>
 			</File>
 			<File

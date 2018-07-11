@@ -1,5 +1,7 @@
 #include "celdemo.h"
 #include "version.h"
+#include "error.h"
+#include "log.h"
 #include "conf.h"
 #include "apiserver.h"
 #include "cel/multithread.h"
@@ -39,8 +41,8 @@ int celdemo_main(int argc, TCHAR *argv[])
 #ifdef _CEL_WIN
     cel_wsastartup();
 #endif
-    if (conf_read(&conf, cel_fullpath(_T("../etc/cel-demo.conf"))) != 0
-        || conf_write(&conf, cel_fullpath(_T("../etc/cel-demo.conf"))) != 0)
+    if (conf_read(&conf, cel_fullpath(_T("../data/etc/cel-demo.conf"))) != 0
+        || conf_write(&conf, cel_fullpath(_T("../data/etc/cel-demo.conf"))) != 0)
     {
         Err((_T("%s"), cel_geterrstr(cel_geterrno())));
         exit(1);
@@ -61,13 +63,13 @@ int celdemo_main(int argc, TCHAR *argv[])
         cel_eventloopgroup_get_threads_num(&evt_loop_grp)));
     if (conf.api_server.ssl.on == 1)
     {
-        if (((wmip_sslctx = cel_sslcontext_new(
+        if (((api_sslctx = cel_sslcontext_new(
             cel_sslcontext_method(conf.api_server.ssl.protocols))) == NULL
-            || cel_sslcontext_set_own_cert(wmip_sslctx, 
+            || cel_sslcontext_set_own_cert(api_sslctx, 
             cel_fullpath(conf.api_server.ssl.cert), 
             cel_fullpath(conf.api_server.ssl.key), 
             conf.api_server.ssl.key_pswd) == -1
-            || cel_sslcontext_set_ciphersuites(wmip_sslctx, 
+            || cel_sslcontext_set_ciphersuites(api_sslctx, 
             conf.api_server.ssl.ciphers) == -1))
         {
             Err(("Vp ssl context init failed.(%s)", 
@@ -77,8 +79,8 @@ int celdemo_main(int argc, TCHAR *argv[])
         Info(("Vp ssl context init successed, protocol \"%s, %s\".", 
             conf.api_server.ssl.protocols, conf.api_server.ssl.ciphers));
     }
-    if (apiserver_listen(&wmip_listener, 
-        conf.api_server.address, wmip_sslctx) == -1)
+    if (apiserver_listen(&api_listener, 
+        conf.api_server.address, api_sslctx) == -1)
         exit(1);
     cel_eventloopgroup_schedule_timer(
         &evt_loop_grp, 1000, 1, (CelTimerCallbackFunc)cel_log_flush, NULL);

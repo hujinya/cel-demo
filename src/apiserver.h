@@ -2,13 +2,13 @@
 #define __CELDEMO_APISERVER_H__
 
 #include "celdemo.h"
-#include "cel/net/wmiplistener.h"
+#include "cel/net/httpweblistener.h"
 
-extern CelSslContext *wmip_sslctx;
-extern CelWmipListener wmip_listener;
+extern CelSslContext *api_sslctx;
+extern CelHttpWebListener api_listener;
 
-int apiserver_listen(CelWmipListener *listener, 
-                     const TCHAR *address, CelSslContext *wmip_sslctx);
-void apiserver_close(CelWmipListener *listener);
+int apiserver_listen(CelHttpWebListener *listener, 
+                     const TCHAR *address, CelSslContext *api_sslctx);
+void apiserver_close(CelHttpWebListener *listener);
 
 #endif

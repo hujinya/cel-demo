@@ -1,5 +1,0 @@
-
-Feb 26 11:27:02 [27558]: <Info>sunruncel-demo version 1.0.0  (Feb 26 2018 11:25:30)
-Feb 26 11:27:02 [27558]: <Info>Event loop init success, fileds 1048576, threads 4, worker 4.
-Feb 26 11:27:02 [27558]: <Info>Vp ssl context init successed, protocol "SSLv23, AES:ALL:!aNULL:!eNULL:+RC4:@STRENGTH".
-Feb 26 11:27:02 [27558]: <Info>Wmip listener 0.0.0.0:9045 start.

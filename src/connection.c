@@ -1,11 +1,12 @@
 #include "connection.h"
 #include "error.h"
+#include "log.h"
 #include "apiserver.h"
 
 typedef union 
 {
-    CelWmipListener wmip_srv;
-    CelWmipClient wmip_clt;
+    CelHttpWebListener api_srv;
+    CelHttpWebClient api_clt;
 }ConnectionData;
 
 Connection *fds[MAX_FD] = { NULL };
@@ -15,8 +16,8 @@ void *connection_new(int fd, ConnectionType type, CelFreeFunc free_func)
     if (fd < 0 
         || fd > MAX_FD - 1
         || (fds[fd] == NULL
-        && (fds[fd] = 
-        (Connection *)cel_malloc(sizeof(Connection) + sizeof(ConnectionData))) == NULL))
+        && (fds[fd] = (Connection *)cel_malloc(
+        sizeof(Connection) + sizeof(ConnectionData))) == NULL))
     {
         DEAMO_SETERR((0, _T("Connection new failed.")));
         return NULL;

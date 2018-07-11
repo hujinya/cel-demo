@@ -1,4 +1,6 @@
 #include "conf.h"
+#include "error.h"
+#include "log.h"
 #include "cel/json.h"
 #include "cel/crypto/rc4.h"
 
@@ -71,7 +73,7 @@ int conf_read(Conf *conf, const char *file)
     if ((json = cel_json_new_file(file)) == NULL
         || (root_node = cel_json_root_node(json)) == NULL)
         return -1;
-    if ((node1 = cel_json_object_get(root_node, _T("wmip-server"))) != NULL)
+    if ((node1 = cel_json_object_get(root_node, _T("api-server"))) != NULL)
     {
         cel_json_object_get_string(node1, 
             _T("address"), conf->api_server.address, CEL_ADDRLEN);
