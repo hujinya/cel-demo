@@ -1,5 +1,0 @@
-
-Sep 13 12:36:51 [27978]: <Info>cel-demo version 1.0.0  (Sep 13 2018 12:36:40).
-Sep 13 12:36:51 [27978]: <Info>Event loop init success, threads:4.
-Sep 13 12:36:51 [27978]: <Info>Vp ssl context init successed, protocol "SSLv23, ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW:!RC4"..
-Sep 13 12:36:51 [27978]: <Info>Api listener 0.0.0.0:9045 start.
