@@ -1,0 +1,101 @@
+﻿尚融网关使用说明
+
+1 系统设置
+1.1 CentOS 7.x
+1.1.1 防火墙配置
+(未完成)
+1.1.2 服务调用命令
+启动高可用集群命令：systemctl start sunruncel-demo.service
+停止高可用集群命令：systemctl stop sunruncel-demo.service
+重启高可用集群命令：systemctl restart sunruncel-demo.service
+重新加载高可用集群配置命令 :systemctl reload sunruncel-demo.service
+查看高可用集群运行状态命令：systemctl status sunruncel-demo.service
+
+1.2 CentOS 6.x
+1.2.1 防火墙配置：
+service iptables save     (保存防火墙配置信息)
+service iptables restart （防火墙配置生效）
+1.2.2 服务调用命令
+启动高可用集群命令：service sunruncel-demo start
+停止高可用集群命令：service sunruncel-demo stop
+重启高可用集群命令：service sunruncel-demo restart
+重新加载高可用集群配置命令 : service sunruncel-demo reload
+查看高可用集群运行状态命令：service sunruncel-demo status
+
+2 网关配置文件
+2.1 配置文件路径：/etc/sunrun/srgw.conf
+2.2 配置项说明 (其中加*的为必填项)
+{
+    "ssl-servers": [
+        {
+            "name": "ssl-server1",
+            "proctols": "SSLv23",
+            "cert": "/etc/sunrun/server.crt",
+            "key": "/etc/sunrun/server.key",
+            "ciphers": "AES:ALL:!aNULL:!eNULL:+RC4:@STRENGTH"
+        }
+    ],
+    "monitors": [
+        {
+            "name": "wmip-monitor",
+            "type": "http",
+            "address": ":9005"
+        }
+    ],
+    "nodes": [
+        {
+            "name": "10.11.12.150",
+            "address": "10.11.12.150:9000"
+        },
+        {
+            "name": "192.168.0.177",
+            "address": "192.168.0.177:9000"
+        },
+        {
+            "name": "10.11.12.151",
+            "address": "10.11.12.60:3389"
+        }
+    ],
+    "pools": [
+        {
+            "name": "VAST",
+            "balance": "rr",
+            "monitor": "wmip-monitor",
+            "nodes": [
+                "192.168.0.177",
+                "10.11.12.150"
+            ]
+        },
+        {
+            "name": "rdp",
+            "balance": "rr",
+            "nodes": [
+                "10.11.12.151"
+            ]
+        }
+    ],
+    "virtuals": [
+        {
+            "name": "vas",
+            "address": "0.0.0.0:9010",
+            "protocol": "vp2",
+            "persistence": "source",
+            "ssl-server": "ssl-server1",
+            "pools": [
+                "VAST"
+            ]
+        },
+        {
+            "name": "rdp",
+            "address": "0.0.0.0:3389",
+            "protocol": "rdp",
+            "pools": [
+                "rdp"
+            ]
+        }
+    ],
+    "log": {
+        "level": 6,
+        "path": "/var/log/sunrun/srgw/"
+    }
+}

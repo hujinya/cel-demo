@@ -1,0 +1,6 @@
+
+Jul 10 17:20:23 [9906]: <Info>cel-demo version 1.0.0  (Jun 26 2018 11:40:11).
+Jul 10 17:20:23 [9906]: <Info>Event loop init success, threads:4.
+Jul 10 17:20:30 [9906]: <Info>Receive sinigal[exit]..
+Jul 10 17:20:30 [9907]: <Info>Receive sinigal[exit]..
+Jul 10 17:20:33 [9906]: <Err>Wmip listener  start failed(GetAddrInfo():Name or service not known.).
