@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cel-demo", "cel-demo.vcproj", "{75BC526A-5870-42FA-9BC2-13398D316CD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75BC526A-5870-42FA-9BC2-13398D316CD1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{75BC526A-5870-42FA-9BC2-13398D316CD1}.Debug|Win32.Build.0 = Debug|Win32
+		{75BC526A-5870-42FA-9BC2-13398D316CD1}.Release|Win32.ActiveCfg = Release|Win32
+		{75BC526A-5870-42FA-9BC2-13398D316CD1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

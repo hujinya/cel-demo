@@ -26,6 +26,7 @@ TCHAR log_path[CEL_PATHLEN];
 
 int service_main(int argc, TCHAR *argv[])
 {
+	char *x;
     if (cel_service_is_running(SERVICE_NAME))
     {
         Warning((SERVICE_NAME _T(" is running...")));
@@ -57,10 +58,8 @@ int service_main(int argc, TCHAR *argv[])
     else
     {
         cel_fullpath_r(conf.log.path, log_path, CEL_PATHLEN);
-        cel_log_hook_register("logger-file", 
-            cel_logmsg_fwrite, cel_logmsg_fflush, log_path);
-        Info((SERVICE_NAME _T(" version %s"), 
-            cel_version_release(&ver)));
+        cel_log_hook_register("logger-file", cel_logmsg_fwrite, cel_logmsg_fflush, log_path);
+        Info((SERVICE_NAME _T(" version %s"), cel_version_release(&ver)));
     }
     if (cel_eventloopgroup_init(&evt_loop_grp, MAX_FD, -1, TRUE) == -1)
         return 1;
@@ -71,17 +70,16 @@ int service_main(int argc, TCHAR *argv[])
         if (((api_sslctx = cel_sslcontext_new(
             cel_sslcontext_method(conf.api_server.ssl.protocols))) == NULL
             || cel_sslcontext_set_own_cert(api_sslctx, 
-            cel_fullpath(conf.api_server.ssl.cert), 
-            cel_fullpath(conf.api_server.ssl.key), 
+            cel_fullpath(conf.api_server.ssl.cert),
+			cel_fullpath(conf.api_server.ssl.key), 
             conf.api_server.ssl.key_pswd) == -1
             || cel_sslcontext_set_ciphersuites(api_sslctx, 
             conf.api_server.ssl.ciphers) == -1))
         {
-            Err(("Vp ssl context init failed.(%s)", 
-                cel_geterrstr()));
+            Err(("SSL context init failed.(%s)", cel_geterrstr()));
             exit(1);
         }
-        Info(("Vp ssl context init successed, protocol \"%s, %s\".", 
+        Info(("SSL context init successed, protocol \"%s, %s\"", 
             conf.api_server.ssl.protocols, conf.api_server.ssl.ciphers));
     }
     if (apiserver_listen(&api_listener, 

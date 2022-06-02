@@ -5,6 +5,7 @@
 #include "cel/file.h"
 #include "cel/sys/perf.h"
 
+static int demo_allocator_dump(CelHttpContext *http_ctx);
 static int demo_conf_get(CelHttpContext *http_ctx);
 static int demo_error_list(CelHttpContext *http_ctx);
 static int demo_html(CelHttpContext *http_ctx);
@@ -15,6 +16,7 @@ static int demp_orgs_users_get(CelHttpContext *http_ctx);
 
 CelSslContext *api_sslctx = NULL;
 CelHttpServeContext s_api_ctx;
+CelHttpFilterAllowCors api_cros;
 CelHttpServe api_listener;
 
 int apiserver_listen(CelHttpServe *listener, 
@@ -24,27 +26,38 @@ int apiserver_listen(CelHttpServe *listener,
     CelHttpRoute *route;
 
     route = &s_api_ctx.route;
-    cel_httproute_init(route, "/demo/");
-    cel_httproute_add(route, CEL_HTTPM_GET, "conf/get", 
+	//初始化根路由
+    cel_httproute_init(route, "/demo");
+	cel_httproute_logger_filter_set(route, apilogger_handler);
+	cel_httpfilter_allowcors_init(&api_cros, 
+		"*", TRUE, "DELETE,GET,OPTIONS,POST,PUT", "Content-type,X-Auth-Token", NULL, 1800);
+	cel_httproute_filter_insert(route,
+		CEL_HTTPROUTEST_BEFORE_ROUTER, &(api_cros._filter));
+	//注册子理由，CelHttpRouteHandleFunc表示路由处理函数
+    cel_httproute_add(route, CEL_HTTPM_GET, "/conf/get", 
         (CelHttpRouteHandleFunc)demo_conf_get);
-    cel_httproute_add(route, CEL_HTTPM_GET, "error/list", 
+    cel_httproute_add(route, CEL_HTTPM_GET, "/error/list", 
         (CelHttpRouteHandleFunc)demo_error_list);
-    cel_httproute_add(route, CEL_HTTPM_GET, "html", 
+    cel_httproute_add(route, CEL_HTTPM_GET, "/html", 
         (CelHttpRouteHandleFunc)demo_html);
-    cel_httproute_add(route, CEL_HTTPM_GET, "service/get_version", 
+    cel_httproute_add(route, CEL_HTTPM_GET, "/service/get_version", 
         (CelHttpRouteHandleFunc)demo_service_get_version);
-    cel_httproute_add(route, CEL_HTTPM_POST, "sso/login", 
+    cel_httproute_add(route, CEL_HTTPM_POST, "/sso/login", 
         (CelHttpRouteHandleFunc)demo_sso_login);
-    cel_httproute_add(route, CEL_HTTPM_POST, "post/file", 
+    cel_httproute_add(route, CEL_HTTPM_POST, "/post/file", 
         (CelHttpRouteHandleFunc)demo_post_file);
-    cel_httproute_add(route, CEL_HTTPM_GET, "orgs/<org_name>/users/<user_name>",
+    cel_httproute_add(route, CEL_HTTPM_GET, "/orgs/<org_name>/users/<user_name>",
         (CelHttpRouteHandleFunc)demp_orgs_users_get);
+	cel_httproute_add(route, CEL_HTTPM_GET, "/allocator_dump",
+        (CelHttpRouteHandleFunc)demo_allocator_dump);
 
+	//初始化HTTP Server信息
     snprintf(s_api_ctx.server, 
         CEL_HNLEN, "cel-demo %s", cel_version_release(&ver));
     s_api_ctx.new_func = NULL;
     s_api_ctx.free_func = NULL;
 
+	//启动HTTP监听服务，api_sslctx为可选SSL配置信息，不为空启动https服务，反之http服务
     if (cel_sockaddr_init_str(&addr, address) != -1)
     {
         if (cel_httpserve_init(listener, &addr, api_sslctx, &s_api_ctx) != -1)
@@ -64,9 +77,28 @@ int apiserver_listen(CelHttpServe *listener,
     return -1;
 }
 
+int demo_allocator_dump(CelHttpContext *http_ctx)
+{
+    int size;
+
+    cel_httpresponse_set_header(&(http_ctx->rsp), 
+        CEL_HTTPHDR_CONTENT_TYPE,
+        "application/json", sizeof("application/json") - 1);
+    cel_httpresponse_resize_send_buffer(&(http_ctx->rsp), 256 * 1024);
+    size = cel_allocator_dump(
+        cel_httpresponse_get_send_buffer(&(http_ctx->rsp)),
+        cel_httpresponse_get_send_buffer_size(&(http_ctx->rsp)));
+    cel_httpresponse_seek_send_buffer(&(http_ctx->rsp), size);
+    cel_httpresponse_end(&(http_ctx->rsp));
+
+    cel_httpcontext_response_write(http_ctx, 200, 0, NULL);
+	return CEL_RET_OK;
+}
+
 int demo_conf_get(CelHttpContext *http_ctx)
 {
-    cel_httpresponse_send_file(&(http_ctx->rsp), "/etc/sunrun/cel-demo.conf", 0, 0, 
+	char path[260];
+    cel_httpresponse_send_file(&(http_ctx->rsp), cel_fullpath_r(SERVICE_CONF, path, 260), 0, 0, 
         (CelTime *)cel_httprequest_get_header(
         &(http_ctx->req), CEL_HTTPHDR_IF_MODIFIED_SINCE), NULL);
 

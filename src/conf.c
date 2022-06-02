@@ -28,7 +28,7 @@ static int conf_decrypt(TCHAR *in, TCHAR *out, size_t out_len)
     {
         cel_arc4_setup(&ctx, (unsigned char *)s_key, 64);
         in_len = _tcslen((TCHAR *)&in[1]);
-        cel_hextobin((TBYTE *)&in[1], in_len, (TBYTE *)_out, &out_len);
+        cel_hex2bin((TBYTE *)&in[1], in_len, (TBYTE *)_out, &out_len);
         cel_arc4_crypt(&ctx, out_len, (BYTE *)_out, (BYTE *)out);
         out[out_len] = _T('\0');
     }
@@ -54,7 +54,7 @@ static int conf_encrypt(TCHAR *in, TCHAR *out, size_t out_len)
         _out[in_len] = '\0';
         //_tprintf(_T("encrypt bin %s, len = %d\r\n"), obuf, len);
         out[0] = '$';
-        cel_bintohex((TBYTE *)_out, in_len, (TBYTE *)&out[1], &out_len, 0);
+        cel_bin2hex((TBYTE *)_out, in_len, (TBYTE *)&out[1], &out_len, 0);
     }
     else
     {
