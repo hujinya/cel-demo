@@ -1,6 +1,6 @@
 1、相关文件夹说明
-cel - 尚融核心库的头文件及lib
-cel-demo - 尚融http微服务demo源码
+cel - 核心库的头文件及lib
+cel-demo - http微服务demo源码
 mysql - 依赖第三方mysql客户端头文件及lib（已经编译好，若要升级版本，可自行网上下载源码编辑即可）
 openssl - 第三方opensll客户端头文件及lib（已经编译好，若要升级版本，可自行网上下载源码编辑即可）
 注：其中mysql、openssl为已经编译好的库，若要升级，可自行网上下载源码编辑即可
