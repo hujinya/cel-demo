@@ -13,7 +13,7 @@ typedef struct _Conf
             TCHAR cert[CEL_PATHLEN];
             TCHAR key[CEL_PATHLEN];
             TCHAR key_pswd[CEL_PWLEN];
-            TCHAR ciphers[64];
+            TCHAR ciphers[1024];
         }ssl;
     }api_server;
     struct {

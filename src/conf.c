@@ -89,7 +89,7 @@ int conf_read(Conf *conf, const char *file)
             cel_json_object_get_string(node2, 
                 _T("key-pswd"), encrypt_buf, CEL_PWLEN);
             conf_decrypt(encrypt_buf, conf->api_server.ssl.key_pswd, CEL_PWLEN);
-            cel_json_object_get_string(node2, _T("ciphers"), conf->api_server.ssl.ciphers, 64);
+            cel_json_object_get_string(node2, _T("ciphers"), conf->api_server.ssl.ciphers, 1024);
         }
     }
     if ((node1 = cel_json_object_get(root_node, _T("log"))) != NULL)

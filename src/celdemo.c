@@ -17,7 +17,7 @@ CelVersion ver;
 CelEventLoopGroup evt_loop_grp;
 BOOL is_foreground = FALSE;
 BOOL is_debug = FALSE;
-
+static CelFileLogger logger;
 static BOOL is_exit = FALSE;
 #ifdef _CEL_UNIX
 static CelResourceLimits s_rlimits = { 0, MAX_FD, MAX_FD };
@@ -26,20 +26,21 @@ TCHAR log_path[CEL_PATHLEN];
 
 int service_main(int argc, TCHAR *argv[])
 {
-	char *x;
     if (cel_service_is_running(SERVICE_NAME))
     {
         Warning((SERVICE_NAME _T(" is running...")));
         exit(1);
     }
-    
-    cel_multithread_support();
-    cel_allocator_hook_register(NULL, NULL, NULL);
-    cel_cryptomutex_register(NULL, NULL);
-    cel_ssllibrary_init();
-    cel_wsastartup();
+	cel_multithread_support();
+	cel_allocator_hook_register(NULL, NULL, NULL);
+	cel_cached_time_update();
+	cel_cryptomutex_register(NULL, NULL);
+	cel_ssllibrary_init();
 #ifdef _CEL_UNIX
-    cel_resourcelimits_set(&s_rlimits);
+	cel_resourcelimits_set(&s_rlimits);
+#endif
+#ifdef _CEL_WIN
+	cel_wsastartup();
 #endif
     if (conf_read(&conf, cel_fullpath(SERVICE_CONF)) != 0
         || conf_write(&conf, cel_fullpath(SERVICE_CONF)) != 0)
@@ -52,13 +53,13 @@ int service_main(int argc, TCHAR *argv[])
         cel_logger_level_set(
             &g_logger, CEL_LOGFACILITY_LOCAL0, CEL_LOGLEVEL_ERR);
         cel_log_level_set(CEL_LOGLEVEL_DEBUG);
-        //cel_log_hostname_set(conf.server.host);
-        cel_log_hook_register("console", cel_logmsg_puts, NULL, NULL);
     }
     else
     {
-        cel_fullpath_r(conf.log.path, log_path, CEL_PATHLEN);
-        cel_log_hook_register("logger-file", cel_logmsg_fwrite, cel_logmsg_fflush, log_path);
+        logger.max_age = 30;
+		cel_fullpath_r(conf.log.path, logger.path, CEL_PATHLEN);
+		strcpy(logger.filename, "cel-demo.log");
+        cel_log_hook_register("file", (CelLogMsgWriteFunc)cel_logmsg_fwrite, (CelLogMsgFlushFunc)cel_logmsg_fflush, &logger);
         Info((SERVICE_NAME _T(" version %s"), cel_version_release(&ver)));
     }
     if (cel_eventloopgroup_init(&evt_loop_grp, MAX_FD, -1, TRUE) == -1)
@@ -76,6 +77,7 @@ int service_main(int argc, TCHAR *argv[])
             || cel_sslcontext_set_ciphersuites(api_sslctx, 
             conf.api_server.ssl.ciphers) == -1))
         {
+            puts(conf.api_server.ssl.ciphers);
             Err(("SSL context init failed.(%s)", cel_geterrstr()));
             exit(1);
         }

@@ -5,9 +5,9 @@ CROSS =
 CXX = $(CROSS)gcc
 STRIP = $(CROSS)strip
 
-CXXFLAGS = -Wall -Wno-deprecated -fPIC  -g  -I ../../cel/include -I ../../rdp/include
+CXXFLAGS = -Wall -Wno-deprecated -fPIC  -g  -I ../cel/include -I ../openssl/include
 LDFLAGS = 
-LIBS = ../../cel/lib/libcel.a -lpthread -lcrypt -lssl -lcrypto
+LIBS = ../cel/lib/libcel.a ../openssl/lib/libssl.so.3.0.13 ../openssl/lib/libcrypto.so.3.0.13 -lpthread -lcrypt
 
 A_TARGET = 
 SO_TARGET = 
